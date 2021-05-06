@@ -3,7 +3,9 @@ from typing import Optional
 
 
 class Stock:
-    """stock dataclass, used to contain information of a specific stock"""
+    """stock dataclass, used to contain information of a specific stock
+    instance variables are encapsulated to avoid mix ups
+    """
     _ticker = None
     _mentions = 0
     _total_sentiment = 0.0
@@ -25,3 +27,7 @@ class Stock:
             return 0.0
         else:
             return self._total_sentiment / self._mentions
+
+    def get_name(self) -> str:
+        """getter method for self._ticker"""
+        return self._ticker

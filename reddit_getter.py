@@ -2,8 +2,9 @@ import praw
 import csv
 import lexicon
 import re
-from typing import Dict, Set
+from typing import Dict, List, Set
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import stock
 
 
 def get_lm_dict(file: str) -> Dict:
@@ -88,6 +89,12 @@ def interpret_sentiment(txt: str) -> float:
     return analyser.polarity_scores(txt)['compound']
 
 
+def find_ticker(lst: List[stock.Stock], t: str) -> stock.Stock:
+    for s in lst:
+        if s.get_name() == t:
+            return s
+
+
 if __name__ == '__main__':
     stocks = get_stock_names_and_indices(
         'data/nyse.csv') | get_stock_names_and_indices(
@@ -97,8 +104,6 @@ if __name__ == '__main__':
         user_agent="Comment Extraction",
         client_id="fv4OUTKIhmmUHA",
         client_secret="ab7LLxoLxstwV5XYJJ8NY4I-1cbgAA",
-        # password="Dhz216105",
-        # username="explosive_diarrhea_2",
     )
 
     subreddit = 'wallstreetbets'
@@ -111,13 +116,30 @@ if __name__ == '__main__':
                 focus_ticker = get_ticker(submission.selftext.replace('\n', ' '), companies)
 
             if focus_ticker != 'None':
+                post_sentiment = interpret_sentiment(
+                    submission.title + ' ' + submission.selftext.replace('\n', ' '))
+                if focus_ticker not in [s.get_name() for s in all_mentioned_stocks]:
+                    ticker = stock.Stock(focus_ticker)
+                    all_mentioned_stocks.append(ticker)
+                    ticker.add_to_mentions(1 + len(submission.comments))
+                    ticker.add_sentiment((1 + len(submission.comments)) * post_sentiment)
+                else:
+                    ticker = find_ticker(all_mentioned_stocks, focus_ticker)
+                    ticker.add_to_mentions(1 + len(submission.comments))
+                    ticker.add_sentiment((1 + len(submission.comments)) * post_sentiment)
                 print('-----------start of post-------------')
                 print("POST TITLE: " + submission.title)
                 print("POST BODY: " + submission.selftext.replace('\n', ' '))
                 print("POST TICKER: " + focus_ticker)
-                print("POST SENTIMENT: " + str(interpret_sentiment(submission.title + ' ' + submission.selftext.replace('\n', ' '))))
+                print("POST SENTIMENT: " + str(post_sentiment))
                 submission.comments.replace_more(limit=100)
                 for comment in submission.comments.list():
-                    if comment.score >= 0 and 'bot' not in comment.body:
+                    if comment.score >= 0 and 'bot' not in comment.body and comment.body is not None:
                         print('\t' + "comment: " + comment.body.replace('\n', ' '))
+                        comment_sentiment = interpret_sentiment(comment.body.replace('\n', ' '))
+                        ticker.add_to_mentions(1)
+                        ticker.add_sentiment(comment_sentiment)
                 print("---------------end of post-----------------")
+    print("####################################################################################")
+    for t in all_mentioned_stocks:
+        print("ticker: " + t.get_name() + "  ---- average sentiment: " + str(t.get_average_sentiment()))
