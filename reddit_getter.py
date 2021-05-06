@@ -3,7 +3,7 @@ import csv
 import lexicon
 import re
 from typing import Dict, Set
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
 def get_lm_dict(file: str) -> Dict:
@@ -84,7 +84,8 @@ def interpret_sentiment(txt: str) -> float:
     """uses nltk's vader with modification to interpret the attitute of the given text"""
     analyser = SentimentIntensityAnalyzer()
     analyser.lexicon.update(lexicon.wsb_words)
-
+    analyser.lexicon.update(lexicon.emojis)
+    return analyser.polarity_scores(txt)['compound']
 
 
 if __name__ == '__main__':
@@ -103,7 +104,7 @@ if __name__ == '__main__':
     subreddit = 'wallstreetbets'
     sub = reddit.subreddit(subreddit)
     all_mentioned_stocks = []
-    for submission in sub.new(limit=10):
+    for submission in sub.new(limit=20):
         if "Daily Discussion Thread for" not in submission.title:
             focus_ticker = get_ticker(submission.title, companies)
             if focus_ticker == 'None':
@@ -114,6 +115,7 @@ if __name__ == '__main__':
                 print("POST TITLE: " + submission.title)
                 print("POST BODY: " + submission.selftext.replace('\n', ' '))
                 print("POST TICKER: " + focus_ticker)
+                print("POST SENTIMENT: " + str(interpret_sentiment(submission.title + ' ' + submission.selftext.replace('\n', ' '))))
                 submission.comments.replace_more(limit=100)
                 for comment in submission.comments.list():
                     if comment.score >= 0 and 'bot' not in comment.body:

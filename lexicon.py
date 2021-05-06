@@ -9,7 +9,9 @@ blacklist = {'PDFUA', 'ELON', 'FBI', 'DEC', 'IT', 'OP', 'AT', 'GDP', 'DR', 'U', 
              'JUL', 'GOOD', 'PM', 'IV', 'CPU', 'URL', 'SSN', 'SEC', 'IS', 'IRS', 'TOS', 'PS', 'COD',
              'NOW', 'KYS', 'ONE', 'SEE', 'PRAY', 'OTM', 'ALL', 'FD', 'ROPE', 'I', 'GOD', 'BMW',
              'CEO', 'WSB', 'BY', 'FDA', 'PR', 'OK', 'MILF', 'LOVE', 'LOL', 'TICK', 'LMAO', 'THE',
-             'HAS', 'US', 'DD', 'ROFL', 'MACD', 'ETF', 'DC', 'RH'}
+             'HAS', 'US', 'DD', 'ROFL', 'MACD', 'ETF', 'DC', 'RH', 'CRY', 'G', 'BILL', 'INFO', 'AI',
+             'H'
+             }
 
 # adding wsb/reddit flavour to vader to improve sentiment analysis, score: 4.0 to -4.0
 # *modifying list from https://github.com/asad70/reddit-sentiment-analysis/blob/master
@@ -21,6 +23,8 @@ wsb_words = {
     'mooning': 4.0,
     'long': 2.0,
     'short': -2.0,
+    'shorting': -3.0,
+    'shorted': -2.5,
     'call': 4.0,
     'calls': 4.0,
     'put': -4.0,
@@ -62,15 +66,19 @@ wsb_words = {
     'rope': -3.5,
     'dump': -1.9,
     'dumping': 1.0,
+    'hype': 3.0,
+    'retard': 1.0,
+    'moron': 0.5,
+    'fire': 2.5,
 
 }
 
 # emoji sentiment dictionary, completely empirical, would be nice to tune these with neutral network
 # if I knew how
 emojis = {
-    '🚀': 2.5,
-    '🌙': 2.5,
-    '💎': 2.0,
+    '🚀': 2.5,   # 🚀
+    '🌙': 2.5,   # 🌙
+    '💎': 2.0,   # 💎
     '💪': 0.8,
     '🐂': 0.5,
     '🐻': -0.5,
@@ -108,6 +116,11 @@ common = {
     'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven',
     'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen',
     'twenty', 'white', 'black', 'yellow', 'red', 'federal', 'powell', 'all', 'you', 'holdings',
-    'is', 'are'
+    'is', 'are', 'buy', 'cry', 'cycle', 'news', 'new', 'diamond', 'first', 'silver', 'brand',
+    'energy', 'acquisition', 'holding', 'perfect', 'world', 'units', 'super', 'micro', 'computer',
+    'real', 'company', 'companies', 'well', 'national', 'retail', 'properties'
+    'alpha', 'sigma', 'resource', 'resources', 'beta', 'corporation', 'ocean', 'portfolio', 'full',
+    'mining', 'male', 'female', 'group', 'cloud', 'blockchain', 'data', 'office', 'storage', 'big',
+    'vision', 'right'
 
 }
