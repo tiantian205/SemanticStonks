@@ -107,6 +107,7 @@ common = {
     'communication', 'dana', 'data', 'treasury', 'bond', 'interest', 'good', 'bank', 'nasdaq',
     'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven',
     'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen',
-    'twenty', 'white', 'black', 'yellow', 'red', 'federal', 'powell'
+    'twenty', 'white', 'black', 'yellow', 'red', 'federal', 'powell', 'all', 'you', 'holdings',
+    'is', 'are'
 
 }

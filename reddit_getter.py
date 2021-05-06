@@ -3,6 +3,7 @@ import csv
 import lexicon
 import re
 from typing import Dict, Set
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 
 def get_lm_dict(file: str) -> Dict:
@@ -12,12 +13,12 @@ def get_lm_dict(file: str) -> Dict:
         with open(file, 'r') as f:
             reader = csv.reader(f)
             for row in reader:
-                ret[row[0]] = 1.0
+                ret[row[0]] = 0.5
     elif file == 'data/lm_positive.csv':
         with open(file, 'r') as f:
             reader = csv.reader(f)
             for row in reader:
-                ret[row[0]] = -1.0
+                ret[row[0]] = -0.5
     else:
         raise NameError
     return ret
@@ -79,9 +80,10 @@ def get_ticker(msg: str, comps: Set) -> str:
     return "None"
 
 
-def interpret_semantic(txt: str) -> float:
+def interpret_sentiment(txt: str) -> float:
     """uses nltk's vader with modification to interpret the attitute of the given text"""
-
+    analyser = SentimentIntensityAnalyzer()
+    analyser.lexicon.update(lexicon.wsb_words)
 
 
 
