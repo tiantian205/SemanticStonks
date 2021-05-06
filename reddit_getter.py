@@ -5,6 +5,24 @@ import re
 from typing import Dict, Set
 
 
+def get_lm_dict(file: str) -> Dict:
+    """return a dict of words with semantics"""
+    ret = {}
+    if file == 'data/lm_positive.csv':
+        with open(file, 'r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                ret[row[0]] = 1.0
+    elif file == 'data/lm_positive.csv':
+        with open(file, 'r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                ret[row[0]] = -1.0
+    else:
+        raise NameError
+    return ret
+
+
 def get_stock_names_and_indices(name: str) -> Dict:
     """return a dict of the form {ticker: company name} from the csv file"""
     comps = {}
@@ -57,9 +75,14 @@ def get_ticker(msg: str, comps: Set) -> str:
             elif any({word in w.replace('"', '').replace(',', '').split(" ") for w in comps}) \
                     and word.lower() not in lexicon.common and word not in lexicon.blacklist \
                     and word.isalpha():
-                print(word)
                 return name_to_index(stocks, word)
     return "None"
+
+
+def interpret_semantic(txt: str) -> float:
+    """uses nltk's vader with modification to interpret the attitute of the given text"""
+
+
 
 
 if __name__ == '__main__':
@@ -78,7 +101,7 @@ if __name__ == '__main__':
     subreddit = 'wallstreetbets'
     sub = reddit.subreddit(subreddit)
     all_mentioned_stocks = []
-    for submission in sub.new(limit=5):
+    for submission in sub.new(limit=10):
         if "Daily Discussion Thread for" not in submission.title:
             focus_ticker = get_ticker(submission.title, companies)
             if focus_ticker == 'None':
