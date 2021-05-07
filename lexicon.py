@@ -10,7 +10,7 @@ blacklist = {'PDFUA', 'ELON', 'FBI', 'DEC', 'IT', 'OP', 'AT', 'GDP', 'DR', 'U', 
              'NOW', 'KYS', 'ONE', 'SEE', 'PRAY', 'OTM', 'ALL', 'FD', 'ROPE', 'I', 'GOD', 'BMW',
              'CEO', 'WSB', 'BY', 'FDA', 'PR', 'OK', 'MILF', 'LOVE', 'LOL', 'TICK', 'LMAO', 'THE',
              'HAS', 'US', 'DD', 'ROFL', 'MACD', 'ETF', 'DC', 'RH', 'CRY', 'G', 'BILL', 'INFO', 'AI',
-             'H', 'HODL'
+             'H', 'HODL', 'GEM', 'NYC', 'IP'
              }
 
 # adding wsb/reddit flavour to vader to improve sentiment analysis, score: 4.0 to -4.0
@@ -122,6 +122,7 @@ common = {
     'real', 'company', 'companies', 'well', 'national', 'retail', 'properties'
     'alpha', 'sigma', 'resource', 'resources', 'beta', 'corporation', 'ocean', 'portfolio', 'full',
     'mining', 'male', 'female', 'group', 'cloud', 'blockchain', 'data', 'office', 'storage', 'big',
-    'vision', 'right', 'almost', 'live', 'factory'
-
+    'vision', 'right', 'almost', 'live', 'factory', 'price', 'cost', 'pharma', 'line', 'holdings',
+    'ultimate', 'software', 'hardware', 'cruise', 'cannabis', 'top', 'image', 'system', 'systems',
+    'canada'
 }
